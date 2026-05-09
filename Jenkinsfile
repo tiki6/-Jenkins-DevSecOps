@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS'
-    }
-
     triggers {
         pollSCM('H/5 * * * *')
     }
@@ -13,25 +9,23 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Stage 1: Build'
-                echo 'Task: Build and package the Node.js application.'
-                echo 'Tool: npm'
-                bat 'npm install'
+                echo 'Task: Build the code using a build automation tool to compile and package the code.'
+                echo 'Tool: Maven / npm'
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Stage 2: Unit and Integration Tests'
-                echo 'Task: Run unit and integration tests to check application functionality.'
-                echo 'Tool: npm test / Mocha'
-                bat 'npm test'
+                echo 'Task: Run unit tests and integration tests to check application functionality.'
+                echo 'Tools: JUnit, Mocha, Selenium'
             }
         }
 
         stage('Code Analysis') {
             steps {
                 echo 'Stage 3: Code Analysis'
-                echo 'Task: Analyse source code quality and coding standards.'
+                echo 'Task: Analyse code quality and ensure the code meets industry standards.'
                 echo 'Tool: SonarQube'
             }
         }
@@ -39,16 +33,15 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Stage 4: Security Scan'
-                echo 'Task: Scan project dependencies for security vulnerabilities.'
-                echo 'Tool: npm audit / Snyk'
-                bat 'npm audit'
+                echo 'Task: Scan the code and dependencies for security vulnerabilities.'
+                echo 'Tool: Snyk / npm audit / OWASP Dependency-Check'
             }
         }
 
         stage('Deploy to Staging') {
             steps {
                 echo 'Stage 5: Deploy to Staging'
-                echo 'Task: Deploy application to staging server.'
+                echo 'Task: Deploy the application to a staging server.'
                 echo 'Tool: AWS EC2'
             }
         }
@@ -56,15 +49,15 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Stage 6: Integration Tests on Staging'
-                echo 'Task: Run integration tests in staging environment.'
-                echo 'Tool: Postman/Newman'
+                echo 'Task: Run integration tests in the staging environment.'
+                echo 'Tool: Postman/Newman or Selenium'
             }
         }
 
         stage('Deploy to Production') {
             steps {
                 echo 'Stage 7: Deploy to Production'
-                echo 'Task: Deploy application to production server.'
+                echo 'Task: Deploy the tested application to the production server.'
                 echo 'Tool: AWS EC2'
             }
         }
@@ -72,7 +65,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline execution completed.'
+            echo 'Pipeline execution completed successfully.'
         }
     }
 }
